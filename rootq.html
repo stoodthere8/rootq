@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>정답을 찾으려면, 질문부터 다시 세워야 해</title>
+<meta name="description" content="표면 아래, 뿌리를 먼저 보는 이유">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --bg: #E4E9E2;
+    --surface: #EEF2EC;
+    --card: #F9FAF6;
+    --ink: #1F3626;
+    --ink-soft: #4F6455;
+    --line: #CBD3C8;
+    --line-strong: #9AAA9C;
+    --nav-bg: rgba(228, 233, 226, 0.9);
+    --ico: #2F4A3E;
+    --shadow: rgba(31, 54, 38, 0.12);
+
+    --forest: #2F4A3E;
+    --moss: #5E8A66;
+    --copper: #C77B52;
+    --copper-text: #9A512E;
+    --stone: #8B978C;
+    --sand: #D9B48F;
+
+    --deep: #2F4A3E;
+    --deep-2: #3D6350;
+    --on-deep: #F2F5EF;
+    --on-deep-soft: #BCCBBF;
+    --copper-on-deep: #F0B08C;
+
+    --btn-bg: #1F3626;
+    --btn-ink: #F2F5EF;
+
+    --v-slab-top: #F6F8F3;
+    --v-slab-l: #D9E0D6;
+    --v-slab-r: #C4CEC1;
+    --v-t1-l: #7B8C80;
+    --v-t1-r: #55665B;
+    --v-t2-l: #456150;
+    --v-t2-r: #27402F;
+    --v-t3-l: #A4B3A8;
+    --v-t3-r: #7F9085;
+    --v-tile: #FFFFFF;
+    --v-shadow: rgba(31, 54, 38, 0.12);
+
+    --maxw: 880px;
+    --r: 3px;
+    --display: 'Space Grotesk', 'IBM Plex Sans KR', system-ui, -apple-system, 'Malgun Gothic', sans-serif;
+    --body: 'IBM Plex Mono', 'IBM Plex Sans KR', ui-monospace, 'Malgun Gothic', monospace;
+    --mono: 'IBM Plex Mono', 'IBM Plex Sans KR', ui-monospace, 'Malgun Gothic', monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #151C17;
+      --surface: #1B241E;
+      --card: #222D25;
+      --ink: #E7EDE4;
+      --ink-soft: #A6B4A8;
+      --line: #33423A;
+      --line-strong: #4D5F53;
+      --nav-bg: rgba(21, 28, 23, 0.9);
+      --ico: #8DB89D;
+      --shadow: rgba(0, 0, 0, 0.4);
+      --forest: #5B8A70;
+      --moss: #7FA886;
+      --copper-text: #E6A67F;
+      --deep: #0F1913;
+      --deep-2: #182A20;
+      --btn-bg: #E7EDE4;
+      --btn-ink: #14201A;
+      --v-slab-top: #2C3A31;
+      --v-slab-l: #222E27;
+      --v-slab-r: #19221C;
+      --v-t1-l: #8FA495;
+      --v-t1-r: #6B8172;
+      --v-t2-l: #6E9680;
+      --v-t2-r: #4E7560;
+      --v-t3-l: #B4C4B8;
+      --v-t3-r: #93A79A;
+      --v-tile: #E4ECE2;
+      --v-shadow: rgba(0, 0, 0, 0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #151C17;
+    --surface: #1B241E;
+    --card: #222D25;
+    --ink: #E7EDE4;
+    --ink-soft: #A6B4A8;
+    --line: #33423A;
+    --line-strong: #4D5F53;
+    --nav-bg: rgba(21, 28, 23, 0.9);
+    --ico: #8DB89D;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --forest: #5B8A70;
+    --moss: #7FA886;
+    --copper-text: #E6A67F;
+    --deep: #0F1913;
+    --deep-2: #182A20;
+    --btn-bg: #E7EDE4;
+    --btn-ink: #14201A;
+    --v-slab-top: #2C3A31;
+    --v-slab-l: #222E27;
+    --v-slab-r: #19221C;
+    --v-t1-l: #8FA495;
+    --v-t1-r: #6B8172;
+    --v-t2-l: #6E9680;
+    --v-t2-r: #4E7560;
+    --v-t3-l: #B4C4B8;
+    --v-t3-r: #93A79A;
+    --v-tile: #E4ECE2;
+    --v-shadow: rgba(0, 0, 0, 0.35);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 64px);
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 14.5px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    overflow-wrap: anywhere;
+  }
+  a { color: inherit; }
+  button { font-family: inherit; cursor: pointer; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+  ::selection { background: var(--copper); color: #fff; }
+  :focus-visible { outline: 2px solid var(--copper); outline-offset: 2px; }
+  .sec-deep :focus-visible, footer :focus-visible { outline-color: var(--copper-on-deep); }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 50;
+    background: var(--nav-bg);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .nav-links { display: flex; gap: 22px; font-family: var(--mono); font-size: 12.5px; }
+  .nav-links a { text-decoration: none; color: var(--ink-soft); transition: color .15s ease; }
+  .nav-links a:hover { color: var(--copper-text); }
+  .nav-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+    padding: 4px 10px;
+    line-height: 1.5;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: var(--bg);
+    padding: 84px 0 76px;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+    gap: 40px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(32px, 5.2vw, 52px);
+    line-height: 1.14;
+    letter-spacing: -0.035em;
+    margin: 0 0 22px;
+    color: var(--ink);
+    word-break: keep-all;
+    text-wrap: balance;
+  }
+  .hero-sub {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-sub::before { content: ""; width: 28px; height: 2px; background: var(--copper); flex-shrink: 0; }
+  .hero-vis { width: 100%; max-width: 340px; justify-self: end; }
+  .hero-vis svg { width: 100%; height: auto; display: block; }
+  .v-slab-top { fill: var(--v-slab-top); }
+  .v-slab-l { fill: var(--v-slab-l); }
+  .v-slab-r { fill: var(--v-slab-r); }
+  .v-t1-l { fill: var(--v-t1-l); } .v-t1-r { fill: var(--v-t1-r); }
+  .v-t2-l { fill: var(--v-t2-l); } .v-t2-r { fill: var(--v-t2-r); }
+  .v-t3-l { fill: var(--v-t3-l); } .v-t3-r { fill: var(--v-t3-r); }
+  .v-tile { fill: var(--v-tile); stroke: var(--line); stroke-width: 1; }
+  .v-shadow { fill: var(--v-shadow); }
+  .v-root { fill: none; stroke: #C77B52; stroke-width: 1.6; stroke-linecap: round; }
+  .v-dot { fill: #C77B52; }
+  .v-label { font-family: var(--mono); font-size: 11px; fill: var(--ink-soft); }
+  @media (max-width: 760px) {
+    .hero { padding: 56px 0 48px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+    .hero-vis { justify-self: start; max-width: 260px; }
+  }
+
+  /* ---------- Section shell ---------- */
+  .sec { padding: 84px 0; }
+  .sec + .sec { border-top: 1px solid var(--line); }
+  .sec-surface { background: var(--surface); }
+  .sec-bg { background: var(--bg); }
+  .sec.sec-deep {
+    background: linear-gradient(160deg, var(--deep-2), var(--deep));
+    color: var(--on-deep);
+    border-top: none;
+  }
+  .section-head { margin-bottom: 40px; max-width: 640px; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--copper-text);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 12px;
+  }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: currentColor; }
+  .section-head h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(26px, 3.8vw, 38px);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin: 0;
+    word-break: keep-all;
+  }
+  .section-head .sub { margin: 14px 0 0; color: var(--ink-soft); font-size: 13.5px; max-width: 60ch; }
+  .on-deep .eyebrow { color: var(--copper-on-deep); }
+  .on-deep h2 { color: var(--on-deep); }
+  .on-deep .sub { color: var(--on-deep-soft); }
+
+  /* ---------- Info cards ---------- */
+  .card-grid { display: grid; gap: 16px; }
+  .card-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 860px) { .card-grid.three { grid-template-columns: 1fr; } }
+  @media (max-width: 680px) { .card-grid.two { grid-template-columns: 1fr; } }
+  .info-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--tab, var(--forest));
+    border-radius: var(--r);
+    padding: 28px 26px 30px;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .info-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px var(--shadow); }
+  .info-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+  .ico { width: 38px; height: 38px; color: var(--ico); }
+  .ico svg { width: 100%; height: 100%; display: block; }
+  .idx { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+  .info-card h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+    color: var(--ink);
+    word-break: keep-all;
+  }
+  .info-card p { margin: 0; color: var(--ink-soft); font-size: 13.5px; line-height: 1.8; }
+
+  /* ---------- Contact ---------- */
+  .contact { text-align: center; }
+  .contact .section-head { margin: 0 auto 32px; text-align: center; }
+  .contact .eyebrow { justify-content: center; }
+  .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .contact-link {
+    display: inline-block;
+    min-width: 260px;
+    padding: 18px 30px;
+    border: 1px solid var(--line-strong);
+    background: var(--card);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--r);
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .contact-link span { display: block; font-size: 11px; font-weight: 400; color: var(--ink-soft); margin-bottom: 6px; }
+  .contact-link:hover { background: var(--ink); color: var(--card); border-color: var(--ink); }
+  .contact-link:hover span { color: inherit; opacity: .8; }
+  @media (max-width: 480px) { .contact-link { display: block; min-width: 0; } }
+
+  footer {
+    background: var(--deep);
+    color: var(--on-deep-soft);
+    padding: 28px 0 36px;
+    font-family: var(--mono);
+    font-size: 12px;
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .sec { padding: 60px 0; }
+    .wrap { padding: 0 20px; }
+  }
+
+  /* ---------- Memo ---------- */
+  .m-composer {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    color: var(--ink);
+  }
+  .m-composer:focus-within { border-color: var(--copper); }
+  .m-composer input, .m-composer textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--body);
+    resize: none;
+    outline: none;
+  }
+  .m-composer input::placeholder, .m-composer textarea::placeholder { color: var(--ink-soft); opacity: .8; }
+  .m-composer input { font-family: var(--display); font-size: 17px; font-weight: 700; padding: 4px 0; letter-spacing: -0.02em; }
+  .m-composer textarea { font-size: 13.5px; min-height: 30px; padding: 4px 0 0; }
+  .m-composer-footer {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+  .m-composer.expanded .m-composer-footer { display: flex; }
+  .m-composer.expanded textarea { min-height: 64px; }
+  .m-swatches { display: flex; gap: 8px; }
+  .m-swatch { width: 20px; height: 20px; border-radius: 50%; border: none; padding: 0; }
+  .m-swatch[data-color="copper"] { background: var(--copper); }
+  .m-swatch[data-color="moss"] { background: var(--moss); }
+  .m-swatch[data-color="forest"] { background: var(--forest); }
+  .m-swatch[data-color="stone"] { background: var(--stone); }
+  .m-swatch[data-color="sand"] { background: var(--sand); }
+  .m-swatch.active { box-shadow: 0 0 0 2px var(--card), 0 0 0 3.5px var(--ink); }
+  .m-btn-primary {
+    background: var(--btn-bg);
+    color: var(--btn-ink);
+    border: none;
+    border-radius: var(--r);
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .m-btn-primary:disabled { opacity: 0.4; cursor: default; }
+  .m-btn-text { background: none; border: none; color: var(--ink-soft); font-size: 13px; padding: 7px 10px; }
+  .m-btn-text:hover { color: var(--ink); }
+
+  .m-search { margin: 14px 0 6px; }
+  .m-search input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid rgba(242, 245, 239, 0.25);
+    background: transparent;
+    color: var(--on-deep);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 8px 2px;
+    outline: none;
+  }
+  .m-search input::placeholder { color: var(--on-deep-soft); }
+  .m-search input:focus { border-bottom-color: var(--copper-on-deep); }
+
+  .m-board { margin-top: 16px; column-count: 1; column-gap: 16px; }
+  @media (min-width: 720px) { .m-board { column-count: 2; } }
+  .m-empty { margin: 40px 0 0; text-align: center; color: var(--on-deep-soft); font-size: 13.5px; }
+  .m-empty strong {
+    display: block;
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--on-deep);
+    margin-bottom: 6px;
+  }
+
+  .m-card {
+    break-inside: avoid;
+    margin-bottom: 16px;
+    background: var(--card);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+  .m-card-tab { height: 4px; }
+  .m-card-body { padding: 14px 16px 12px; }
+  .m-card-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 16.5px;
+    letter-spacing: -0.02em;
+    margin: 0 0 4px;
+    line-height: 1.4;
+  }
+  .m-card-content { font-size: 13px; color: var(--ink-soft); white-space: pre-wrap; margin: 0 0 12px; line-height: 1.7; }
+  .m-label { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); margin: 12px 0 6px; }
+  .m-questions { margin: 0; padding: 0; list-style: none; }
+  .m-q-item { border-left: 2px solid var(--line); margin-bottom: 4px; }
+  .m-q-item.open { border-left-color: var(--copper); }
+  .m-q-toggle {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--ink);
+    font-size: 13px;
+    font-family: inherit;
+    line-height: 1.6;
+    padding: 6px 8px 6px 12px;
+  }
+  .m-q-toggle:hover { background: var(--surface); }
+  .m-thread { padding: 2px 8px 10px 12px; }
+  .m-thread-messages { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+  .m-bubble {
+    font-size: 12.5px;
+    line-height: 1.65;
+    padding: 7px 10px;
+    border-radius: var(--r);
+    max-width: 90%;
+    white-space: pre-wrap;
+  }
+  .m-bubble.user { align-self: flex-end; background: var(--surface); border: 1px solid var(--line); color: var(--ink); }
+  .m-bubble.assistant { align-self: flex-start; background: transparent; border: 1px solid var(--line); color: var(--ink); }
+  .m-bubble.error { border-color: var(--copper); color: var(--copper-text); }
+  .m-thread-input-row { display: flex; gap: 6px; align-items: center; }
+  .m-thread-input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    background: var(--card);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 12.5px;
+    padding: 6px 10px;
+    outline: none;
+  }
+  .m-thread-input:focus { border-color: var(--copper); }
+  .m-thread-send {
+    background: var(--btn-bg);
+    color: var(--btn-ink);
+    border: none;
+    border-radius: var(--r);
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .m-thread-send svg { width: 13px; height: 13px; }
+  .m-thread-send:disabled, .m-thread-input:disabled { opacity: 0.45; }
+  .m-issue { font-size: 13px; color: var(--ink); margin: 0; line-height: 1.7; }
+  .m-loading, .m-unavailable {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .m-spinner {
+    width: 11px; height: 11px;
+    border: 1.5px solid var(--line);
+    border-top-color: var(--copper);
+    border-radius: 50%;
+    animation: m-spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes m-spin { to { transform: rotate(360deg); } }
+  .m-error { font-size: 12.5px; color: var(--copper-text); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .m-error button {
+    background: none;
+    border: 1px solid var(--copper);
+    color: var(--copper-text);
+    border-radius: var(--r);
+    font-size: 11.5px;
+    padding: 2px 8px;
+  }
+  .m-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+  .m-timestamp { font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft); }
+  .m-actions { display: flex; align-items: center; gap: 2px; margin-left: auto; }
+  .m-icon-btn {
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    padding: 5px;
+    border-radius: var(--r);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  .m-icon-btn:hover { background: var(--surface); color: var(--ink); }
+  .m-icon-btn svg { width: 15px; height: 15px; }
+  .m-icon-btn.armed { color: var(--copper-text); }
+  .m-res-link {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 8px;
+    border-radius: var(--r);
+  }
+  .m-res-link:hover { background: var(--surface); color: var(--ink); }
+  .m-res-link svg { width: 11px; height: 11px; }
+  .m-res-link.disabled { opacity: 0.35; pointer-events: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .info-card, .contact-link, .nav-links a { transition: none; }
+    .info-card:hover { transform: none; }
+    .m-spinner { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="ico-dots" viewBox="0 0 40 40">
+      <g fill="none" stroke="currentColor" stroke-width="1.3">
+        <circle cx="6.5" cy="6.5" r="3"/><circle cx="15.5" cy="6.5" r="3"/><circle cx="24.5" cy="6.5" r="3"/><circle cx="33.5" cy="6.5" r="3"/>
+        <circle cx="6.5" cy="15.5" r="3"/><circle cx="15.5" cy="15.5" r="3"/><circle cx="24.5" cy="15.5" r="3"/><circle cx="33.5" cy="15.5" r="3"/>
+        <circle cx="6.5" cy="24.5" r="3"/><circle cx="15.5" cy="24.5" r="3"/><circle cx="24.5" cy="24.5" r="3"/><circle cx="33.5" cy="24.5" r="3"/>
+        <circle cx="6.5" cy="33.5" r="3"/><circle cx="15.5" cy="33.5" r="3"/><circle cx="24.5" cy="33.5" r="3"/><circle cx="33.5" cy="33.5" r="3"/>
+      </g>
+    </symbol>
+    <symbol id="ico-squares" viewBox="0 0 40 40">
+      <g fill="none" stroke="currentColor" stroke-width="1.3">
+        <rect x="5" y="5" width="30" height="30"/><rect x="11" y="11" width="18" height="18"/><rect x="16.5" y="16.5" width="7" height="7"/>
+      </g>
+    </symbol>
+    <symbol id="ico-rings" viewBox="0 0 40 40">
+      <g fill="none" stroke="currentColor" stroke-width="1.3">
+        <circle cx="20" cy="20" r="15"/><circle cx="20" cy="20" r="9.5"/><circle cx="20" cy="20" r="4"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<nav class="nav" aria-label="섹션 이동">
+  <div class="wrap nav-inner">
+    <div class="nav-links">
+      <a href="#origin">Origin</a>
+      <a href="#memo">Memo</a>
+      <a href="#ongoing">Ongoing</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-title">ITM.69000 인공지능 경영과 법 - 1차 과제</div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1>정답을 찾으려면, 질문부터 다시 세워야 해</h1>
+      <p class="hero-sub">표면 아래, 뿌리를 먼저 보는 이유</p>
+    </div>
+    <div class="hero-vis">
+      <svg viewBox="0 0 400 440" role="img" aria-label="표면 위에 떠 있는 도형들과, 표면 아래로 뻗어 내려가는 구리색 뿌리를 그린 일러스트">
+        <!-- surface slab -->
+        <polygon class="v-slab-top" points="40,215 200,175 360,215 200,255"/>
+        <polygon class="v-slab-l" points="40,215 200,255 200,282 40,242"/>
+        <polygon class="v-slab-r" points="200,255 360,215 360,242 200,282"/>
+
+        <!-- soft shadows -->
+        <ellipse class="v-shadow" cx="120" cy="216" rx="30" ry="8"/>
+        <ellipse class="v-shadow" cx="280" cy="214" rx="30" ry="8"/>
+        <ellipse class="v-shadow" cx="198" cy="212" rx="20" ry="6"/>
+        <ellipse class="v-shadow" cx="322" cy="216" rx="22" ry="6"/>
+
+        <!-- objects above the surface -->
+        <polygon class="v-t1-l" points="120,56 92,128 124,144"/>
+        <polygon class="v-t1-r" points="120,56 124,144 152,118"/>
+        <polygon class="v-t2-l" points="276,34 248,100 280,118"/>
+        <polygon class="v-t2-r" points="276,34 280,118 310,92"/>
+        <polygon class="v-t3-l" points="196,92 178,132 198,146"/>
+        <polygon class="v-t3-r" points="196,92 198,146 218,128"/>
+        <polygon class="v-tile" points="300,150 338,140 346,168 308,178"/>
+
+        <!-- roots below the surface -->
+        <path class="v-root" d="M200 282 L200 300"/>
+        <path class="v-root" d="M162 324 C 130 322, 100 338, 78 366"/>
+        <path class="v-root" d="M176 372 C 150 384, 128 396, 112 418"/>
+        <path class="v-root" d="M238 324 C 270 322, 300 338, 322 366"/>
+        <path class="v-root" d="M224 372 C 250 384, 272 396, 288 418"/>
+        <path class="v-root" d="M200 396 L200 424"/>
+        <path class="v-root" d="M110 335 C 96 330, 84 322, 70 320"/>
+        <path class="v-root" d="M290 335 C 304 330, 316 322, 330 320"/>
+        <circle class="v-dot" cx="78" cy="366" r="3"/>
+        <circle class="v-dot" cx="112" cy="418" r="3"/>
+        <circle class="v-dot" cx="322" cy="366" r="3"/>
+        <circle class="v-dot" cx="288" cy="418" r="3"/>
+        <circle class="v-dot" cx="200" cy="424" r="3"/>
+        <circle class="v-dot" cx="70" cy="320" r="2.5"/>
+        <circle class="v-dot" cx="330" cy="320" r="2.5"/>
+
+        <!-- faceted root -->
+        <polygon points="200,300 162,324 200,338" fill="#E8A47C"/>
+        <polygon points="200,300 200,338 238,324" fill="#C77B52"/>
+        <polygon points="162,324 176,372 200,338" fill="#D68B62"/>
+        <polygon points="238,324 200,338 224,372" fill="#A95F3C"/>
+        <polygon points="200,338 176,372 200,396" fill="#B8683F"/>
+        <polygon points="200,338 200,396 224,372" fill="#9A512E"/>
+
+        <text class="v-label" x="28" y="300">surface</text>
+        <text class="v-label" x="336" y="402">root</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ORIGIN -->
+<section class="sec sec-surface" id="origin">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Entrepreneurial Alertness</span>
+      <h2>Where this comes from?</h2>
+    </div>
+    <div class="card-grid two">
+      <article class="info-card" style="--tab: var(--forest)">
+        <div class="info-top">
+          <span class="ico"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ico-dots"/></svg></span>
+          <span class="idx">01</span>
+        </div>
+        <h3>Born-to-be a Problem Finder</h3>
+        <p>주어진 문제를 그대로 받지 않습니다. 표면적으로 정의된 문제 뒤에 숨은 진짜 질문을 찾아내는 데서 모든 작업을 시작합니다.</p>
+      </article>
+      <article class="info-card" style="--tab: var(--copper)">
+        <div class="info-top">
+          <span class="ico"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ico-squares"/></svg></span>
+          <span class="idx">02</span>
+        </div>
+        <h3>Ill-Structured Problem Structurer</h3>
+        <p>정답이 하나로 정해지지 않은, 구조조차 불분명한 문제를 다룰 수 있는 프레임으로 재구성하여 다음 단계로 넘어갈 수 있게 만듭니다.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MEMO -->
+<section class="sec sec-deep" id="memo">
+  <div class="wrap">
+    <div class="section-head on-deep">
+      <span class="eyebrow">Memo</span>
+      <h2>질문이 이어지는 메모</h2>
+      <p class="sub">메모를 적으면 연계 질문과 핵심 이슈를 정리해 드려요. 질문을 누르면 이어서 대화할 수 있고, 뉴스와 학술자료는 검색 링크로 바로 확인할 수 있어요. 페이지를 열 때마다 내용이 새로 갱신됩니다.</p>
+    </div>
+
+    <div class="m-composer" id="composer">
+      <input type="text" id="note-title" placeholder="제목" maxlength="80" aria-label="메모 제목">
+      <textarea id="note-content" placeholder="메모 작성…" rows="1" aria-label="메모 내용"></textarea>
+      <div class="m-composer-footer">
+        <div class="m-swatches" id="swatches" role="group" aria-label="메모 색상">
+          <button type="button" class="m-swatch active" data-color="copper" title="구리" aria-label="구리"></button>
+          <button type="button" class="m-swatch" data-color="moss" title="이끼" aria-label="이끼"></button>
+          <button type="button" class="m-swatch" data-color="forest" title="숲" aria-label="숲"></button>
+          <button type="button" class="m-swatch" data-color="stone" title="돌" aria-label="돌"></button>
+          <button type="button" class="m-swatch" data-color="sand" title="모래" aria-label="모래"></button>
+        </div>
+        <div>
+          <button type="button" class="m-btn-text" id="cancel-btn">취소</button>
+          <button type="button" class="m-btn-primary" id="save-btn" disabled>저장</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-search">
+      <input type="text" id="search" placeholder="메모 검색…" aria-label="메모 검색">
+    </div>
+
+    <div id="board" class="m-board"></div>
+    <div id="empty" class="m-empty" style="display:none;">
+      <strong>아직 메모가 없어요</strong>
+      위 칸에 주제를 적으면 연계 질문과 이슈를 정리해 드릴게요.
+    </div>
+  </div>
+</section>
+
+<!-- ONGOING -->
+<section class="sec sec-bg" id="ongoing">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Ongoing</span>
+      <h2>현재 진행 중</h2>
+    </div>
+    <div class="card-grid three">
+      <article class="info-card" style="--tab: var(--forest)">
+        <div class="info-top">
+          <span class="ico"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ico-rings"/></svg></span>
+          <span class="idx">01</span>
+        </div>
+        <h3>덜어내기의 삶</h3>
+        <p>일과 연구 밖에서는 “더하는 것”이 아니라 “덜어내는 것”에 대해 씁니다. 무엇을 남기고 무엇을 걷어낼지를 고민한 기록을 연재하고 있습니다.</p>
+      </article>
+      <article class="info-card" style="--tab: var(--copper)">
+        <div class="info-top">
+          <span class="ico"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ico-dots"/></svg></span>
+          <span class="idx">02</span>
+        </div>
+        <h3>플랫폼 비즈니스 연구</h3>
+        <p>음악 산업의 디지털 비즈니스 생태계 내 통제점의 반복적 비대칭 연구를 시작으로, 수요와 공급을 이어주는 플랫폼 비즈니스를 연구하고 있습니다.</p>
+      </article>
+      <article class="info-card" style="--tab: var(--moss)">
+        <div class="info-top">
+          <span class="ico"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ico-squares"/></svg></span>
+          <span class="idx">03</span>
+        </div>
+        <h3>Subsidiary Initiative 통찰</h3>
+        <p>외국계 IT 벤더 한국 지사의 자원/권한 상의 제약 하에서 마케팅 활동의 성과 극대화를 위하여 로컬 마케팅 전략이 어떻게 개발되는지에 대해서도 인터뷰하고 있습니다.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec sec-surface contact" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Contact</h2>
+    </div>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:stoodthere8@gmail.com"><span>Email</span>stoodthere8@gmail.com</a>
+      <a class="contact-link" href="https://www.linkedin.com/in/kyungheeshin/" target="_blank" rel="noopener"><span>LinkedIn</span>linkedin.com/in/kyungheeshin</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 KH Shin. All rights reserved.</div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "roots-memo-v1";
+  var COLORS = ["copper", "moss", "forest", "stone", "sand"];
+  var sampleFn = null;
+  var sampleChecked = false;
+  var sampleBlocked = false;
+  var busy = {};
+
+  // ---------- storage ----------
+  function normalizeNote(n) {
+    if (!n || typeof n !== "object") return null;
+    var note = {
+      id: String(n.id || ("n" + Date.now() + Math.random().toString(36).slice(2, 7))),
+      title: String(n.title || ""),
+      content: String(n.content || ""),
+      color: COLORS.indexOf(n.color) > -1 ? n.color : "copper",
+      createdAt: Number(n.createdAt) || Date.now(),
+      ai: { status: "idle", questions: [], issue: "", generatedAt: null },
+      threads: {}
+    };
+    if (n.ai && typeof n.ai === "object") {
+      note.ai.questions = Array.isArray(n.ai.questions) ? n.ai.questions.map(String).slice(0, 3) : [];
+      note.ai.issue = typeof n.ai.issue === "string" ? n.ai.issue : "";
+      note.ai.generatedAt = n.ai.generatedAt || null;
+      note.ai.status = (note.ai.questions.length || note.ai.issue) ? "done" : "idle";
+    }
+    if (n.threads && typeof n.threads === "object") {
+      Object.keys(n.threads).forEach(function (k) {
+        var t = n.threads[k];
+        if (!t || !Array.isArray(t.messages)) return;
+        var msgs = t.messages.filter(function (m) {
+          return m && (m.role === "user" || m.role === "assistant") && typeof m.display === "string";
+        }).map(function (m) {
+          return { role: m.role, content: String(m.content || ""), display: m.display, error: !!m.error };
+        });
+        while (msgs.length && msgs[msgs.length - 1].role === "user") msgs.pop();
+        if (msgs.length) note.threads[k] = { messages: msgs, open: !!t.open, loading: false };
+      });
+    }
+    return note;
+  }
+  function loadNotes() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(arr)) return [];
+      return arr.map(normalizeNote).filter(Boolean);
+    } catch (e) {
+      return [];
+    }
+  }
+  function saveNotes() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(notes)); } catch (e) { /* unavailable or full */ }
+  }
+
+  var notes = loadNotes();
+
+  // ---------- utils ----------
+  function escapeHtml(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function timeAgo(ts) {
+    if (!ts) return "";
+    var diff = Math.floor((Date.now() - ts) / 1000);
+    if (diff < 60) return "방금 갱신";
+    if (diff < 3600) return Math.floor(diff / 60) + "분 전 갱신";
+    if (diff < 86400) return Math.floor(diff / 3600) + "시간 전 갱신";
+    return Math.floor(diff / 86400) + "일 전 갱신";
+  }
+  function newsUrl(q) {
+    return "https://news.google.com/search?q=" + encodeURIComponent(q.slice(0, 100)) + "&hl=ko&gl=KR&ceid=KR:ko";
+  }
+  function scholarUrl(q) {
+    return "https://scholar.google.com/scholar?q=" + encodeURIComponent(q.slice(0, 100)) + "&hl=ko";
+  }
+  function hasContent(note) {
+    return !!(note.ai.questions.length || note.ai.issue);
+  }
+
+  var ICONS = {
+    trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    refresh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 4v5h5M20 20v-5h-5M4.5 15a8 8 0 0013.9 3.4M19.5 9A8 8 0 005.6 5.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    news: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="14" height="16" rx="1"/><path d="M17 9h4v9a2 2 0 01-2 2H7" stroke-linecap="round"/><path d="M6 9h8M6 13h8M6 17h5" stroke-linecap="round"/></svg>',
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    scholar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3L2 8l10 5 10-5-10-5z" stroke-linejoin="round"/><path d="M6 10.5V16c0 1.5 2.5 3 6 3s6-1.5 6-3v-5.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 8v6" stroke-linecap="round"/></svg>'
+  };
+
+  // ---------- rendering ----------
+  var board = document.getElementById("board");
+  var emptyState = document.getElementById("empty");
+
+  function render() {
+    var query = document.getElementById("search").value.trim().toLowerCase();
+    var visible = notes.filter(function (n) {
+      return !query || (n.title + " " + n.content).toLowerCase().indexOf(query) !== -1;
+    });
+    board.innerHTML = "";
+    emptyState.style.display = notes.length === 0 ? "block" : "none";
+    visible.slice().sort(function (a, b) { return b.createdAt - a.createdAt; }).forEach(function (note) {
+      board.appendChild(renderCard(note));
+    });
+  }
+
+  function renderThread(thread, qIndex) {
+    var bubbles = thread.messages.map(function (m) {
+      return '<div class="m-bubble ' + m.role + (m.error ? " error" : "") + '">' + escapeHtml(m.display) + "</div>";
+    }).join("");
+    var loading = thread.loading ? '<div class="m-loading"><span class="m-spinner"></span>생각 중…</div>' : "";
+    var dis = thread.loading ? " disabled" : "";
+    return (
+      '<div class="m-thread">' +
+        '<div class="m-thread-messages">' + bubbles + loading + "</div>" +
+        '<div class="m-thread-input-row">' +
+          '<input type="text" class="m-thread-input" placeholder="이어서 물어보기…" aria-label="이어서 물어보기" data-qidx="' + qIndex + '"' + dis + ">" +
+          '<button type="button" class="m-thread-send" data-qidx="' + qIndex + '" aria-label="보내기"' + dis + ">" + ICONS.send + "</button>" +
+        "</div>" +
+      "</div>"
+    );
+  }
+
+  function renderCard(note) {
+    var el = document.createElement("article");
+    el.className = "m-card";
+    el.dataset.id = note.id;
+
+    var ai = note.ai;
+    var aiBlock = "";
+    if (ai.status === "loading") {
+      aiBlock = '<div class="m-label">연계 질문 · 핵심 이슈</div><div class="m-loading"><span class="m-spinner"></span>생성 중…</div>';
+    } else if (ai.status === "idle") {
+      aiBlock = '<div class="m-label">연계 질문 · 핵심 이슈</div><div class="m-loading"><span class="m-spinner"></span>대기 중…</div>';
+    } else if (ai.status === "unavailable") {
+      aiBlock = '<div class="m-label">연계 질문 · 핵심 이슈</div><div class="m-unavailable">이 환경에서는 AI 요약을 사용할 수 없어요.</div>';
+    } else if (ai.status === "error") {
+      aiBlock = '<div class="m-label">연계 질문 · 핵심 이슈</div><div class="m-error">생성에 실패했어요.<button type="button" data-action="retry">다시 시도</button></div>';
+    } else if (ai.status === "done") {
+      var qItems = (ai.questions || []).map(function (q, qi) {
+        var thread = note.threads && note.threads[qi];
+        var isOpen = !!(thread && thread.open);
+        return '<li class="m-q-item' + (isOpen ? " open" : "") + '">' +
+                 '<button type="button" class="m-q-toggle" aria-expanded="' + isOpen + '" data-qidx="' + qi + '">' + escapeHtml(q) + "</button>" +
+                 (isOpen ? renderThread(thread, qi) : "") +
+               "</li>";
+      }).join("");
+      aiBlock =
+        '<div class="m-label">연계 질문</div><ul class="m-questions">' + qItems + "</ul>" +
+        '<div class="m-label">핵심 이슈</div><p class="m-issue">' + escapeHtml(ai.issue || "") + "</p>";
+    }
+
+    var topic = (note.title || note.content || "").trim();
+    var hasTopic = topic.length > 0;
+    var newsAttrs = hasTopic ? ' target="_blank" rel="noopener" href="' + newsUrl(topic) + '"' : ' aria-disabled="true" tabindex="-1"';
+    var scholarAttrs = hasTopic ? ' target="_blank" rel="noopener" href="' + scholarUrl(topic) + '"' : ' aria-disabled="true" tabindex="-1"';
+    var dis = hasTopic ? "" : " disabled";
+
+    el.innerHTML =
+      '<div class="m-card-tab" style="background:var(--' + note.color + ')"></div>' +
+      '<div class="m-card-body">' +
+        (note.title ? '<p class="m-card-title">' + escapeHtml(note.title) + "</p>" : "") +
+        (note.content ? '<p class="m-card-content">' + escapeHtml(note.content) + "</p>" : "") +
+        aiBlock +
+        '<div class="m-card-footer">' +
+          '<span class="m-timestamp">' + (ai.status === "done" ? timeAgo(ai.generatedAt) : "") + "</span>" +
+          '<div class="m-actions">' +
+            '<a class="m-res-link' + dis + '"' + newsAttrs + ">" + ICONS.news + "뉴스</a>" +
+            '<a class="m-res-link' + dis + '"' + scholarAttrs + ">" + ICONS.scholar + "학술자료</a>" +
+            '<button type="button" class="m-icon-btn" data-action="refresh" title="다시 생성" aria-label="다시 생성">' + ICONS.refresh + "</button>" +
+            '<button type="button" class="m-icon-btn" data-action="delete" title="삭제" aria-label="삭제">' + ICONS.trash + "</button>" +
+          "</div>" +
+        "</div>" +
+      "</div>";
+
+    // delete (two-step)
+    var delBtn = el.querySelector('[data-action="delete"]');
+    delBtn.addEventListener("click", function () {
+      if (delBtn.dataset.armed === "1") {
+        notes = notes.filter(function (n) { return n.id !== note.id; });
+        saveNotes();
+        render();
+        return;
+      }
+      delBtn.dataset.armed = "1";
+      delBtn.classList.add("armed");
+      delBtn.setAttribute("aria-label", "삭제 확인");
+      delBtn.innerHTML = "삭제할까요?";
+      setTimeout(function () {
+        if (delBtn.isConnected && delBtn.dataset.armed === "1") {
+          delBtn.dataset.armed = "";
+          delBtn.classList.remove("armed");
+          delBtn.setAttribute("aria-label", "삭제");
+          delBtn.innerHTML = ICONS.trash;
+        }
+      }, 3000);
+    });
+    el.querySelector('[data-action="refresh"]').addEventListener("click", function () { generateAI(note); });
+    var retryBtn = el.querySelector('[data-action="retry"]');
+    if (retryBtn) retryBtn.addEventListener("click", function () { generateAI(note); });
+
+    bindThreadEvents(el, note);
+    return el;
+  }
+
+  function updateCard(note) {
+    var existing = board.querySelector('.m-card[data-id="' + note.id + '"]');
+    if (existing) existing.replaceWith(renderCard(note));
+  }
+
+  function focusThreadInput(noteId, qIndex) {
+    var inp = board.querySelector('.m-card[data-id="' + noteId + '"] .m-thread-input[data-qidx="' + qIndex + '"]');
+    if (inp && !inp.disabled) inp.focus();
+  }
+
+  // ---------- Claude (sample) ----------
+  async function ensureSample() {
+    if (sampleBlocked) return null;
+    if (sampleChecked) return sampleFn;
+    try {
+      sampleFn = await claude.use("sample");
+    } catch (e) {
+      sampleFn = null;
+    }
+    sampleChecked = true;
+    if (!sampleFn) sampleBlocked = true;
+    return sampleFn;
+  }
+
+  async function generateAI(note) {
+    if (busy[note.id]) return "busy";
+    busy[note.id] = true;
+    var had = hasContent(note);
+    try {
+      var fn = await ensureSample();
+      if (!fn) {
+        note.ai.status = had ? "done" : "unavailable";
+        saveNotes();
+        updateCard(note);
+        return "unavailable";
+      }
+      note.ai.status = "loading";
+      updateCard(note);
+
+      var prompt =
+        "다음 메모의 주제에 대해 (1) 더 깊이 탐구할 수 있는 연계 질문 3개와 " +
+        "(2) 현재 이 주제에서 논의되는 핵심 이슈를 2~3문장으로 한국어로 정리해줘.\n" +
+        '메모 제목: "' + (note.title || "(제목 없음)") + '"\n' +
+        '메모 내용: "' + (note.content || "(내용 없음)").slice(0, 1500) + '"\n' +
+        '반드시 아래 JSON 형식으로만 답변하고 다른 텍스트는 포함하지 마: {"questions": ["질문1", "질문2", "질문3"], "issue": "이슈 요약"}';
+
+      try {
+        var result = await fn.json(prompt, { modelTier: "quick", cache: false });
+        var qs = Array.isArray(result && result.questions) ? result.questions.map(String).filter(Boolean).slice(0, 3) : [];
+        var issue = result && typeof result.issue === "string" ? result.issue : "";
+        if (!qs.length && !issue) throw { code: "empty" };
+        note.ai.questions = qs;
+        note.ai.issue = issue;
+        note.ai.status = "done";
+        note.ai.generatedAt = Date.now();
+        note.threads = {};
+        saveNotes();
+        updateCard(note);
+        return "ok";
+      } catch (e) {
+        var code = (e && e.code) || "error";
+        if (code === "not_granted") sampleBlocked = true;
+        note.ai.status = had ? "done" : (code === "not_granted" ? "unavailable" : "error");
+        saveNotes();
+        updateCard(note);
+        return code;
+      }
+    } finally {
+      busy[note.id] = false;
+    }
+  }
+
+  async function refreshAll() {
+    var list = notes.slice().sort(function (a, b) { return b.createdAt - a.createdAt; });
+    for (var i = 0; i < list.length; i++) {
+      var n = list[i];
+      if (notes.indexOf(n) === -1) continue;
+      var r = await generateAI(n);
+      if (r === "not_granted" || r === "rate_limited" || r === "unavailable") {
+        var rest = r === "rate_limited" ? "error" : "unavailable";
+        notes.forEach(function (x) {
+          if (x.ai.status === "idle") { x.ai.status = rest; updateCard(x); }
+        });
+        break;
+      }
+    }
+  }
+
+  // ---------- chat threads ----------
+  function bindThreadEvents(el, note) {
+    el.querySelectorAll(".m-q-toggle").forEach(function (btn) {
+      btn.addEventListener("click", function () { toggleThread(note, btn.dataset.qidx); });
+    });
+    el.querySelectorAll(".m-thread-send").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var qi = btn.dataset.qidx;
+        var input = el.querySelector('.m-thread-input[data-qidx="' + qi + '"]');
+        var val = input ? input.value : "";
+        if (input) input.value = "";
+        sendFollowup(note, qi, val);
+      });
+    });
+    el.querySelectorAll(".m-thread-input").forEach(function (inp) {
+      inp.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && !e.isComposing) {
+          e.preventDefault();
+          var qi = inp.dataset.qidx;
+          var val = inp.value;
+          inp.value = "";
+          sendFollowup(note, qi, val);
+        }
+      });
+    });
+  }
+
+  function toggleThread(note, qIndex) {
+    if (!note.threads) note.threads = {};
+    var t = note.threads[qIndex];
+    if (!t) {
+      note.threads[qIndex] = { messages: [], open: true, loading: false };
+      saveNotes();
+      updateCard(note);
+      startThread(note, qIndex);
+    } else {
+      t.open = !t.open;
+      saveNotes();
+      updateCard(note);
+    }
+  }
+
+  function buildTurns(t) {
+    var turns = [];
+    t.messages.forEach(function (m) {
+      if (m.error || !m.content) return;
+      var last = turns[turns.length - 1];
+      if (last && last.role === m.role) last.content += "\n\n" + m.content;
+      else turns.push({ role: m.role, content: m.content });
+    });
+    if (turns.length > 11) turns = [turns[0]].concat(turns.slice(-10));
+    return turns;
+  }
+
+  function errorCopy(code) {
+    if (code === "not_granted") return "이 환경에서는 대화 기능을 사용할 수 없어요.";
+    if (code === "rate_limited") return "요청이 많아요. 잠시 후 다시 시도해 주세요.";
+    return "답변을 만들지 못했어요. 다시 보내 주세요.";
+  }
+
+  async function runThreadTurn(note, qIndex, refocus) {
+    var t = note.threads[qIndex];
+    var fn = await ensureSample();
+    if (!fn) {
+      t.loading = false;
+      t.messages.push({ role: "assistant", content: "", display: errorCopy("not_granted"), error: true });
+    } else {
+      try {
+        var res = await fn(buildTurns(t), { modelTier: "quick", cache: false });
+        t.messages.push({ role: "assistant", content: res.text, display: res.text, error: false });
+      } catch (e) {
+        if (e && e.code === "not_granted") sampleBlocked = true;
+        t.messages.push({ role: "assistant", content: "", display: errorCopy(e && e.code), error: true });
+      }
+      t.loading = false;
+    }
+    saveNotes();
+    updateCard(note);
+    if (refocus) focusThreadInput(note.id, qIndex);
+  }
+
+  function startThread(note, qIndex) {
+    var question = (note.ai.questions || [])[qIndex] || "";
+    var t = note.threads[qIndex];
+    var prefix =
+      '메모 제목: "' + (note.title || "(제목 없음)") + '"\n' +
+      '메모 내용: "' + (note.content || "(내용 없음)").slice(0, 1500) + '"\n' +
+      "위 메모와 관련하여 아래 질문에 한국어로 3~5문장 정도로 답해줘.\n질문: " + question;
+    t.messages.push({ role: "user", content: prefix, display: question, error: false });
+    t.loading = true;
+    saveNotes();
+    updateCard(note);
+    runThreadTurn(note, qIndex, false);
+  }
+
+  function sendFollowup(note, qIndex, text) {
+    text = (text || "").trim();
+    if (!text) return;
+    var t = note.threads && note.threads[qIndex];
+    if (!t || t.loading) return;
+    t.messages.push({ role: "user", content: text, display: text, error: false });
+    t.loading = true;
+    saveNotes();
+    updateCard(note);
+    runThreadTurn(note, qIndex, true);
+  }
+
+  // ---------- composer ----------
+  var composer = document.getElementById("composer");
+  var titleInput = document.getElementById("note-title");
+  var contentInput = document.getElementById("note-content");
+  var saveBtn = document.getElementById("save-btn");
+  var cancelBtn = document.getElementById("cancel-btn");
+  var swatchesWrap = document.getElementById("swatches");
+  var activeColor = "copper";
+
+  function expand() { composer.classList.add("expanded"); }
+  function collapse() {
+    composer.classList.remove("expanded");
+    titleInput.value = "";
+    contentInput.value = "";
+    contentInput.style.height = "";
+    saveBtn.disabled = true;
+  }
+  function checkValid() { saveBtn.disabled = !(titleInput.value.trim() || contentInput.value.trim()); }
+
+  titleInput.addEventListener("focus", expand);
+  contentInput.addEventListener("focus", expand);
+  titleInput.addEventListener("input", checkValid);
+  contentInput.addEventListener("input", function () {
+    checkValid();
+    contentInput.style.height = "auto";
+    contentInput.style.height = contentInput.scrollHeight + "px";
+  });
+  cancelBtn.addEventListener("click", collapse);
+
+  swatchesWrap.addEventListener("click", function (e) {
+    var btn = e.target.closest(".m-swatch");
+    if (!btn) return;
+    activeColor = btn.dataset.color;
+    swatchesWrap.querySelectorAll(".m-swatch").forEach(function (s) { s.classList.remove("active"); });
+    btn.classList.add("active");
+  });
+
+  saveBtn.addEventListener("click", function () {
+    var title = titleInput.value.trim();
+    var content = contentInput.value.trim();
+    if (!title && !content) return;
+    var note = normalizeNote({
+      id: "n" + Date.now() + Math.random().toString(36).slice(2, 7),
+      title: title,
+      content: content,
+      color: activeColor,
+      createdAt: Date.now()
+    });
+    notes.unshift(note);
+    saveNotes();
+    collapse();
+    render();
+    generateAI(note);
+  });
+
+  document.getElementById("search").addEventListener("input", render);
+
+  // ---------- init ----------
+  render();
+  if (notes.length) {
+    ensureSample().then(function () { refreshAll(); });
+  }
+})();
+</script>
+</body>
+</html>

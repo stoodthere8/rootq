@@ -174,8 +174,8 @@
     padding-top: 12px;
     padding-bottom: 12px;
   }
-  .nav-links { display: flex; gap: 22px; font-family: var(--mono); font-size: 12.5px; }
-  .nav-links a { text-decoration: none; color: var(--ink-soft); transition: color .15s ease; }
+  .nav-links { display: flex; flex-wrap: wrap; row-gap: 6px; gap: 22px; font-family: var(--mono); font-size: 12.5px; }
+  .nav-links a { text-decoration: none; color: var(--ink-soft); transition: color .15s ease; white-space: nowrap; }
   .nav-links a:hover { color: var(--copper-text); }
   .nav-title {
     font-family: var(--mono);
@@ -184,6 +184,39 @@
     border: 1px solid var(--line-strong);
     padding: 4px 10px;
     line-height: 1.5;
+  }
+  .nav-auth { position: relative; display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+  .nav-auth-status { color: var(--ink-soft); white-space: nowrap; }
+  .nav-auth-link {
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+  .nav-auth-link:hover { color: var(--copper-text); }
+  .nav-login-box {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 60;
+    margin-bottom: 0;
+    box-shadow: 0 10px 24px var(--shadow);
+    min-width: 240px;
+  }
+  @media (max-width: 640px) {
+    .nav-login-box {
+      position: fixed;
+      top: auto;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      width: auto;
+    }
   }
 
   /* ---------- Hero ---------- */
@@ -271,6 +304,13 @@
     word-break: keep-all;
   }
   .section-head .sub { margin: 14px 0 0; color: var(--ink-soft); font-size: 13.5px; max-width: 60ch; }
+  .section-subtitle {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    color: var(--copper-text);
+    margin: 10px 0 0;
+  }
+  .on-deep .section-subtitle { color: var(--copper-on-deep); }
   .on-deep .eyebrow { color: var(--copper-on-deep); }
   .on-deep h2 { color: var(--on-deep); }
   .on-deep .sub { color: var(--on-deep-soft); }
@@ -346,18 +386,6 @@
 
   /* ---------- Memo ---------- */
   /* 로그인 */
-  .m-auth { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
-  .m-auth-status { font-family: var(--mono); font-size: 12px; color: var(--on-deep-soft); }
-  .m-auth-link {
-    background: none;
-    border: none;
-    color: var(--copper-on-deep);
-    font-family: var(--mono);
-    font-size: 12px;
-    padding: 2px 0;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
   .m-login-box {
     display: flex;
     align-items: center;
@@ -703,6 +731,17 @@
       <a href="#memo">Memo</a>
       <a href="#ongoing">Ongoing</a>
       <a href="#contact">Contact</a>
+      <span class="nav-auth" id="nav-auth">
+        <span id="auth-status" class="nav-auth-status"></span>
+        <button type="button" class="nav-auth-link" id="login-open-btn">관리자 로그인</button>
+        <button type="button" class="nav-auth-link" id="logout-btn" style="display:none;">로그아웃</button>
+        <div class="m-login-box nav-login-box" id="login-box" style="display:none;">
+          <input type="password" id="login-password" placeholder="비밀번호" aria-label="관리자 비밀번호">
+          <button type="button" class="m-btn-primary" id="login-submit-btn">로그인</button>
+          <button type="button" class="m-btn-text" id="login-cancel-btn">취소</button>
+          <span class="m-login-msg" id="login-msg"></span>
+        </div>
+      </span>
     </div>
     <div class="nav-title">ITM.69000 인공지능 경영과 법 - 1차 과제</div>
   </div>
@@ -801,20 +840,9 @@
   <div class="wrap">
     <div class="section-head on-deep">
       <span class="eyebrow">Memo</span>
-      <h2>라벨로 모아 보는 메모</h2>
-      <p class="sub">메모는 누구나 볼 수 있어요. 라벨을 눌러 모아 보고, 질문을 눌러 이어서 대화할 수 있어요. 새 메모 작성은 로그인해야 할 수 있어요.</p>
-    </div>
-
-    <div class="m-auth">
-      <span id="auth-status" class="m-auth-status"></span>
-      <button type="button" class="m-auth-link" id="login-open-btn">관리자 로그인</button>
-      <button type="button" class="m-auth-link" id="logout-btn" style="display:none;">로그아웃</button>
-    </div>
-    <div class="m-login-box" id="login-box" style="display:none;">
-      <input type="password" id="login-password" placeholder="비밀번호" aria-label="관리자 비밀번호">
-      <button type="button" class="m-btn-primary" id="login-submit-btn">로그인</button>
-      <button type="button" class="m-btn-text" id="login-cancel-btn">취소</button>
-      <span class="m-login-msg" id="login-msg"></span>
+      <h2>컨텍스토리 Contextory</h2>
+      <p class="section-subtitle">생각을 확장하는 메모</p>
+      <p class="sub">생각은 기록보다 맥락 속에서 오래 살아남습니다. THOUGHT TRACE는 떠오른 생각과 그 순간의 맥락을 함께 기록하고, 시간이 지나 다시 연결하고 확장할 수 있도록 돕는 개인 사고 아카이브입니다.</p>
     </div>
 
     <div class="m-composer" id="composer" style="display:none;">

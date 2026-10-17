@@ -771,6 +771,7 @@
       <a href="#contact">Contact</a>
       <span class="nav-auth" id="nav-auth">
         <span id="auth-status" class="nav-auth-status"></span>
+        <span id="auto-status" class="nav-auth-status" style="font-size:.85em;"></span>
         <button type="button" class="nav-auth-link" id="login-open-btn">관리자 로그인</button>
         <button type="button" class="nav-auth-link" id="logout-btn" style="display:none;">로그아웃</button>
         <div class="m-login-box nav-login-box" id="login-box" style="display:none;">
@@ -1681,11 +1682,32 @@
     }) || null;
   }
 
+  // 자동 반영의 마지막 동작을 관리자에게만 작게 보여 줘요. (실행이 "성공"이어도 실제로 닿았는지 확인용)
+  function showAutoStatus(st) {
+    var el = document.getElementById("auto-status");
+    if (!el) return;
+    st = st || {};
+    function ago(x) {
+      if (!x || !x.at) return "기록 없음";
+      var m = Math.floor((Date.now() - x.at) / 60000);
+      if (m < 1) return "방금";
+      if (m < 60) return m + "분 전";
+      if (m < 1440) return Math.floor(m / 60) + "시간 전";
+      return Math.floor(m / 1440) + "일 전";
+    }
+    var parts = ["자동 확인 " + ago(st.lastCheck), "제출 " + ago(st.lastSubmit)];
+    el.textContent = " · " + parts.join(" · ");
+    var tip = [];
+    if (st.lastLog) tip.push("마지막 실행 보고: " + (st.lastLog.note || "") + (st.lastLog.error ? " / 오류: " + st.lastLog.error : "") + " (파일 " + st.lastLog.files + ", 제출 " + st.lastLog.submitted + ")");
+    el.title = tip.join("\n");
+  }
+
   async function checkDrafts() {
     if (!isLoggedIn() || draftsChecked) return;
     draftsChecked = true;
     try {
       var data = await callWorker("draftsList", { target: "rootq", token: adminToken });
+      showAutoStatus(data.autoStatus);
       var later = laterMap(), now = Date.now();
       var list = (data.drafts || []).filter(function (d) { return !(later[d.id] && now - later[d.id] < 24 * 3600 * 1000); });
       if (list.length) {
@@ -1735,7 +1757,7 @@
         (d.kind === "memo-update" ? '<div class="dr-old">기존 메모 갱신: ' + (old ? escapeHtml(old.title) : '(기존 메모를 찾을 수 없어요)') + '</div>' : '') +
         (sim ? '<div class="dr-warn">⚠ 비슷한 메모 있음: ' + escapeHtml(sim.title) + '</div>' : '') +
         '<input type="text" maxlength="80" aria-label="제목"><textarea maxlength="1500" aria-label="내용"></textarea>' +
-        '<div class="m-labels" data-labels></div>' +
+        '<div class="m-labels" data-labels></div><div class="dr-meta">라벨은 최대 2개 · 3개째를 누르면 먼저 고른 것이 바뀌어요</div>' +
         (ev ? '<div class="dr-ev">근거: ' + ev + '</div>' : '') +
         '<div class="dr-meta" data-msg></div>' +
         '<div class="dr-actions"><button type="button" class="m-btn-text" data-later>나중에</button><button type="button" class="m-btn-text" data-reject>거절</button><button type="button" class="m-btn-primary" data-ok>승인</button></div>';
@@ -1749,8 +1771,10 @@
         lw.querySelectorAll("[data-t]").forEach(function (b) {
           b.addEventListener("click", function () {
             var i = labels.indexOf(b.dataset.t);
-            if (i > -1) labels.splice(i, 1); else if (labels.length < 2) labels.push(b.dataset.t);
+            if (i > -1) labels.splice(i, 1);
+            else { labels.push(b.dataset.t); if (labels.length > 2) labels.shift(); } // 이미 2개면 가장 먼저 고른 것을 대체
             if (!labels.length) labels = ["etc"];
+            else if (labels.length > 1 && labels.indexOf("etc") > -1 && b.dataset.t !== "etc") labels = labels.filter(function (x) { return x !== "etc"; });
             drawLabels();
           });
         });
